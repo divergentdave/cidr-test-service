@@ -1,0 +1,16 @@
+FROM lacion/docker-alpine:gobuildimage
+
+LABEL app="build-cidr-test-service"
+LABEL REPO="https://github.com/divergentdave/cidr-test-service"
+
+ENV GOROOT=/usr/lib/go \
+    GOPATH=/gopath \
+    GOBIN=/gopath/bin \
+    PROJPATH=/gopath/src/github.com/divergentdave/cidr-test-service
+
+# Because of https://github.com/docker/docker/issues/14914
+ENV PATH=$PATH:$GOROOT/bin:$GOPATH/bin
+
+WORKDIR /gopath/src/github.com/divergentdave/cidr-test-service
+
+CMD ["make","build-alpine"]

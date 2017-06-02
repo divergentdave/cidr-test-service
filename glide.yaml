@@ -1,0 +1,3 @@
+package: github.com/divergentdave/cidr-test-service
+import:
+- package: github.com/spf13/viper
