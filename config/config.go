@@ -38,7 +38,7 @@ func LoadConfigProvider(appName string) Provider {
 }
 
 func init() {
-	defaultConfig = readViperConfig("CIDR-TEST-SERVICE")
+	defaultConfig = readViperConfig("CIDR_TEST_SERVICE")
 }
 
 func readViperConfig(appName string) *viper.Viper {
@@ -47,7 +47,8 @@ func readViperConfig(appName string) *viper.Viper {
 	v.AutomaticEnv()
 
 	// global defaults
-	
+	v.SetDefault("cidrs", make([]string, 0))
+	v.SetDefault("listen_addr", ":8080")
 
 	return v
 }
