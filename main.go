@@ -9,6 +9,8 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/rs/cors"
+
 	"github.com/divergentdave/cidr-test-service/config"
 )
 
@@ -37,7 +39,10 @@ func main() {
 		cidrs[i] = cidr
 	}
 
-	http.HandleFunc("/", func (w http.ResponseWriter, req *http.Request) {
+	mux := http.NewServeMux()
+	mux.HandleFunc("/", func (w http.ResponseWriter, req *http.Request) {
+		w.Header().Set("Content-Type", "text/plain")
+
 		remoteAddr := req.RemoteAddr
 		ipString := remoteAddr[:strings.LastIndex(remoteAddr, ":")]
 		ipString = strings.Trim(ipString, "[]")
@@ -55,5 +60,7 @@ func main() {
 	})
 
 	listenAddress := configuration.GetString("listen_addr")
-	log.Fatal(http.ListenAndServe(listenAddress, nil))
+	corsMiddleware := cors.New(cors.Options{MaxAge: 86400})
+	corsHandler := corsMiddleware.Handler(mux)
+	log.Fatal(http.ListenAndServe(listenAddress, corsHandler))
 }
