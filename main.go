@@ -7,7 +7,6 @@ import (
 	"log"
 	"net"
 	"net/http"
-	"strings"
 
 	"github.com/rs/cors"
 
@@ -44,8 +43,10 @@ func main() {
 		w.Header().Set("Content-Type", "text/plain")
 
 		remoteAddr := req.RemoteAddr
-		ipString := remoteAddr[:strings.LastIndex(remoteAddr, ":")]
-		ipString = strings.Trim(ipString, "[]")
+		ipString, _, err := net.SplitHostPort(remoteAddr)
+		if err != nil {
+			log.Fatal(err)
+		}
 		ip := net.ParseIP(ipString)
 		if ip == nil {
 			log.Fatalf("Couldn't parse IP address from %s", remoteAddr)
