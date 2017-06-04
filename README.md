@@ -10,7 +10,7 @@ Running it then should be as simple as:
 
 ```console
 $ make build
-$ CIDR_TEST_SERVICE_CIDRS="10.0.0.0/8 172.16.0.0/12 192.168.0.0/16" CIDR_TEST_SERVICE_LISTEN_ADDR_":8080" ./bin/cidr-test-service
+$ CIDR_TEST_SERVICE_CIDRS="10.0.0.0/8 172.16.0.0/12 192.168.0.0/16" CIDR_TEST_SERVICE_LISTEN_ADDR=":8080" ./bin/cidr-test-service
 ```
 
 ### Testing
